@@ -1,15 +1,6 @@
 import { Fragment, useState, useEffect } from "react";
-
-interface StoreProductsType {
-  id: number;
-  category: string;
-  description: string;
-  image: string;
-  amount: number;
-}
-const getStoreProducts = async (): Promise<StoreProductsType[]> => {
-  return await (await fetch("https://fakestoreapi.com/products")).json();
-};
+import { StoreProductsType } from "./core/domain/StoreProductsType";
+import { getStoreProducts } from "./core/services/getStoreProducts";
 
 function App() {
   const [storeProducts, setStoreProducts] = useState<StoreProductsType[]>([]);
