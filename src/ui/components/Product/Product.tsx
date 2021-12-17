@@ -25,3 +25,5 @@ const Product: React.FC<Props> = ({ product, handleAddToCart }) => {
     </>
   );
 };
+
+export default Product;

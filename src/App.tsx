@@ -1,6 +1,8 @@
+import { Grid } from "@material-ui/core";
 import { Fragment, useState, useEffect } from "react";
 import { StoreProductsType } from "./core/domain/StoreProductsType";
 import { getStoreProducts } from "./core/services/getStoreProducts";
+import Product from "./ui/components/Product/Product";
 
 const handleAddToCart = (clickedProduct: StoreProductsType) => {};
 
@@ -11,7 +13,21 @@ function App() {
   }, []);
 
   console.log(storeProducts);
-  return <Fragment></Fragment>;
+  return (
+    <Fragment>
+      <Grid container spacing={3}>
+        {storeProducts?.map((product) => (
+          <Grid item key={product.id} xs={12} sm={4}>
+            <Product
+              product={product}
+              handleAddToCart={handleAddToCart}
+              key={product.id}
+            />
+          </Grid>
+        ))}
+      </Grid>
+    </Fragment>
+  );
 }
 
 export default App;
