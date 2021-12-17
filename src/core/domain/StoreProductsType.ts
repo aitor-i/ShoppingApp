@@ -4,4 +4,6 @@ export interface StoreProductsType {
   description: string;
   image: string;
   amount: number;
+  title: string;
+  price: number;
 }
