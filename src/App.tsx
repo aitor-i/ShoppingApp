@@ -1,7 +1,9 @@
-import { Grid, Drawer } from "@material-ui/core";
+import { Grid, Drawer, Badge } from "@material-ui/core";
+import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import { Fragment, useState, useEffect } from "react";
 import { StoreProductsType } from "./core/domain/StoreProductsType";
 import { getStoreProducts } from "./core/services/getStoreProducts";
+import { StyledButton } from "./App.styled";
 import Product from "./ui/components/Product/Product";
 
 const handleAddToCart = (clickedProduct: StoreProductsType) => {};
@@ -22,6 +24,11 @@ function App() {
         open={cartOpen}
         onClose={() => setCartOpen(false)}
       ></Drawer>
+      <StyledButton onClick={() => setCartOpen(true)}>
+        <Badge color="error">
+          <AddShoppingCartIcon />
+        </Badge>
+      </StyledButton>
       <Grid container spacing={3}>
         {storeProducts?.map((product) => (
           <Grid item key={product.id} xs={12} sm={4}>
