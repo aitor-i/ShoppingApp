@@ -7,6 +7,12 @@ import { StyledButton } from "./App.styled";
 import Product from "./ui/components/Product/Product";
 
 const handleAddToCart = (clickedProduct: StoreProductsType) => {};
+const getTotalProducts = (products: StoreProductsType[]) =>
+  products.reduce(
+    (previousValue: number, product: StoreProductsType) =>
+      previousValue + product.amount,
+    0
+  );
 
 function App() {
   const [cartOpen, setCartOpen] = useState(false);
@@ -25,7 +31,7 @@ function App() {
         onClose={() => setCartOpen(false)}
       ></Drawer>
       <StyledButton onClick={() => setCartOpen(true)}>
-        <Badge color="error">
+        <Badge badgeContent={getTotalProducts(cartProducts)} color="error">
           <AddShoppingCartIcon />
         </Badge>
       </StyledButton>
