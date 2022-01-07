@@ -12,6 +12,15 @@ interface Props {
 }
 
 const Cart: React.FC<Props> = ({ cartProduct, addToCart, removeFromCart }) => {
+  const calculateTotal = (products: StoreProductsType[]) => {
+    return products.reduce(
+      (previousValue: number, product: StoreProductsType) => {
+        return previousValue + product.amount * product.price;
+      },
+      0
+    );
+  };
+
   return (
     <Fragment>
       <Wrapper>
@@ -25,6 +34,7 @@ const Cart: React.FC<Props> = ({ cartProduct, addToCart, removeFromCart }) => {
             removeFromCart={removeFromCart}
           />
         ))}
+        <h2>Total: ${calculateTotal(cartProduct).toFixed(2)}</h2>
       </Wrapper>
     </Fragment>
   );
