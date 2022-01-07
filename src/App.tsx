@@ -7,8 +7,6 @@ import { StyledButton } from "./App.styled";
 import Product from "./ui/components/Product/Product";
 import Cart from "./ui/components/Cart/Cart";
 
-const handleRemoveFromCart = (id: number) => {};
-
 const getTotalProducts = (products: StoreProductsType[]) =>
   products.reduce(
     (previousValue: number, product: StoreProductsType) =>
@@ -20,6 +18,19 @@ function App() {
   const [cartOpen, setCartOpen] = useState(false);
   const [cartProducts, setCartProducts] = useState<StoreProductsType[]>([]);
   const [storeProducts, setStoreProducts] = useState<StoreProductsType[]>([]);
+
+  const handleRemoveFromCart = (id: number) => {
+    setCartProducts((previous) => {
+      return previous.reduce((previousValue, product) => {
+        if (product.id === id) {
+          if (product.amount === 1) return previousValue;
+          return [...previousValue, { ...product, amount: product.amount - 1 }];
+        } else {
+          return [...previousValue, { ...product }];
+        }
+      }, [] as StoreProductsType[]);
+    });
+  };
 
   const handleAddToCart = (clickedProduct: StoreProductsType) => {
     setCartProducts((previous) => {
@@ -44,16 +55,14 @@ function App() {
   console.log(storeProducts);
   return (
     <Fragment>
-      <Drawer
-        anchor="right"
-        open={cartOpen}
-        onClose={() => setCartOpen(false)}
-      ></Drawer>
-      <Cart
-        addToCart={handleAddToCart}
-        cartProduct={cartProducts}
-        removeFromCart={handleRemoveFromCart}
-      ></Cart>
+      <Drawer anchor="right" open={cartOpen} onClose={() => setCartOpen(false)}>
+        <Cart
+          addToCart={handleAddToCart}
+          cartProduct={cartProducts}
+          removeFromCart={handleRemoveFromCart}
+        ></Cart>
+      </Drawer>
+
       <StyledButton onClick={() => setCartOpen(true)}>
         <Badge badgeContent={getTotalProducts(cartProducts)} color="error">
           <AddShoppingCartIcon />
