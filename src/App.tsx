@@ -5,8 +5,10 @@ import { StoreProductsType } from "./core/domain/StoreProductsType";
 import { getStoreProducts } from "./core/services/getStoreProducts";
 import { StyledButton } from "./App.styled";
 import Product from "./ui/components/Product/Product";
+import Cart from "./ui/components/Cart/Cart";
 
-const handleAddToCart = (clickedProduct: StoreProductsType) => {};
+const handleRemoveFromCart = (id: number) => {};
+
 const getTotalProducts = (products: StoreProductsType[]) =>
   products.reduce(
     (previousValue: number, product: StoreProductsType) =>
@@ -18,6 +20,23 @@ function App() {
   const [cartOpen, setCartOpen] = useState(false);
   const [cartProducts, setCartProducts] = useState<StoreProductsType[]>([]);
   const [storeProducts, setStoreProducts] = useState<StoreProductsType[]>([]);
+
+  const handleAddToCart = (clickedProduct: StoreProductsType) => {
+    setCartProducts((previous) => {
+      const isProductInCart = previous.find(
+        (product) => product.id === clickedProduct.id
+      );
+
+      if (isProductInCart) {
+        return previous.map((product) =>
+          product.id === clickedProduct.id
+            ? { ...product, amount: product.amount + 1 }
+            : product
+        );
+      }
+      return [...previous, { ...clickedProduct, amount: 1 }];
+    });
+  };
   useEffect(() => {
     getStoreProducts().then((data) => setStoreProducts(data));
   }, []);
@@ -30,6 +49,11 @@ function App() {
         open={cartOpen}
         onClose={() => setCartOpen(false)}
       ></Drawer>
+      <Cart
+        addToCart={handleAddToCart}
+        cartProduct={cartProducts}
+        removeFromCart={handleRemoveFromCart}
+      ></Cart>
       <StyledButton onClick={() => setCartOpen(true)}>
         <Badge badgeContent={getTotalProducts(cartProducts)} color="error">
           <AddShoppingCartIcon />
