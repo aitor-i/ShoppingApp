@@ -6,13 +6,7 @@ import { getStoreProducts } from "./core/services/getStoreProducts";
 import { StyledButton } from "./App.styled";
 import Product from "./ui/components/Product/Product";
 import Cart from "./ui/components/Cart/Cart";
-
-const getTotalProducts = (products: StoreProductsType[]) =>
-  products.reduce(
-    (previousValue: number, product: StoreProductsType) =>
-      previousValue + product.amount,
-    0
-  );
+import getTotalProducts from "./core/services/getTotalProducts";
 
 function App() {
   const [cartOpen, setCartOpen] = useState(false);
