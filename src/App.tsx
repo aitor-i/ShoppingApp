@@ -7,6 +7,7 @@ import { StyledButton } from "./App.styled";
 import Product from "./ui/components/Product/Product";
 import Cart from "./ui/components/Cart/Cart";
 import getTotalProducts from "./core/services/getTotalProducts";
+import Header from "./ui/components/Header/Header";
 
 function App() {
   const [cartOpen, setCartOpen] = useState(false);
@@ -49,6 +50,7 @@ function App() {
   console.log(storeProducts);
   return (
     <Fragment>
+      <Header />
       <Drawer anchor="right" open={cartOpen} onClose={() => setCartOpen(false)}>
         <Cart
           addToCart={handleAddToCart}
