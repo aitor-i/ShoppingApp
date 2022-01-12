@@ -8,11 +8,15 @@ import Product from "./ui/components/Product/Product";
 import Cart from "./ui/components/Cart/Cart";
 import getTotalProducts from "./core/services/getTotalProducts";
 import Header from "./ui/components/Header/Header";
-
 function App() {
   const [cartOpen, setCartOpen] = useState(false);
-  const [cartProducts, setCartProducts] = useState<StoreProductsType[]>([]);
+  const [cartProducts, setCartProducts] = useState<StoreProductsType[]>(
+    () => JSON.parse(localStorage.getItem("cartProducts")!) || []
+  );
   const [storeProducts, setStoreProducts] = useState<StoreProductsType[]>([]);
+  useEffect(() =>
+    window.localStorage.setItem("cartProducts", JSON.stringify(cartProducts))
+  );
 
   const handleRemoveFromCart = (id: number) => {
     setCartProducts((previous) => {
