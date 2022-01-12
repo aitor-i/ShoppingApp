@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { StoreProductsType } from "../../domain/StoreProductsType";
-import { getStoreProducts } from "../getStoreProducts";
+import { getStoreProducts } from "../../services/getStoreProducts";
 
 export function useCart() {
   const [cartProducts, setCartProducts] = useState<StoreProductsType[]>(

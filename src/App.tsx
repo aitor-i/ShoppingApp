@@ -1,12 +1,12 @@
 import { Fragment, useState } from "react";
 
-import { useCart } from "./core/services/hooks/useCart";
+import { useCart } from "./core/infrastructure/hooks/useCart";
 
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import { Badge, Drawer, Grid } from "@material-ui/core";
 
 import Cart from "./ui/components/Cart/Cart";
-import getTotalProducts from "./core/services/getTotalProducts";
+import getTotalProducts from "./core/infrastructure/getTotalProducts";
 import Header from "./ui/components/Header/Header";
 import Product from "./ui/components/Product/Product";
 
