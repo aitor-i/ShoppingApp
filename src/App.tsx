@@ -1,61 +1,35 @@
-import { Grid, Drawer, Badge } from "@material-ui/core";
+import { Fragment, useState } from "react";
+
+import { useCart } from "./useCart";
+
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
-import { Fragment, useState, useEffect } from "react";
-import { StoreProductsType } from "./core/domain/StoreProductsType";
-import { getStoreProducts } from "./core/services/getStoreProducts";
-import { StyledButton } from "./App.styled";
-import Product from "./ui/components/Product/Product";
+import { Badge, Drawer, Grid } from "@material-ui/core";
+
 import Cart from "./ui/components/Cart/Cart";
 import getTotalProducts from "./core/services/getTotalProducts";
 import Header from "./ui/components/Header/Header";
+import Product from "./ui/components/Product/Product";
+
+import { StyledButton } from "./App.styled";
+
 function App() {
-  const [cartOpen, setCartOpen] = useState(false);
-  const [cartProducts, setCartProducts] = useState<StoreProductsType[]>(
-    () => JSON.parse(localStorage.getItem("cartProducts")!) || []
-  );
-  const [storeProducts, setStoreProducts] = useState<StoreProductsType[]>([]);
-  useEffect(() =>
-    window.localStorage.setItem("cartProducts", JSON.stringify(cartProducts))
-  );
+  const {
+    cartProducts,
+    handleAddToCart,
+    storeProducts,
+    handleRemoveFromCart,
+  } = useCart();
 
-  const handleRemoveFromCart = (id: number) => {
-    setCartProducts((previous) => {
-      return previous.reduce((previousValue, product) => {
-        if (product.id === id) {
-          if (product.amount === 1) return previousValue;
-          return [...previousValue, { ...product, amount: product.amount - 1 }];
-        } else {
-          return [...previousValue, { ...product }];
-        }
-      }, [] as StoreProductsType[]);
-    });
-  };
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
-  const handleAddToCart = (clickedProduct: StoreProductsType) => {
-    setCartProducts((previous) => {
-      const isProductInCart = previous.find(
-        (product) => product.id === clickedProduct.id
-      );
-
-      if (isProductInCart) {
-        return previous.map((product) =>
-          product.id === clickedProduct.id
-            ? { ...product, amount: product.amount + 1 }
-            : product
-        );
-      }
-      return [...previous, { ...clickedProduct, amount: 1 }];
-    });
-  };
-  useEffect(() => {
-    getStoreProducts().then((data) => setStoreProducts(data));
-  }, []);
-
-  console.log(storeProducts);
   return (
     <Fragment>
       <Header />
-      <Drawer anchor="right" open={cartOpen} onClose={() => setCartOpen(false)}>
+      <Drawer
+        anchor="right"
+        open={isCartOpen}
+        onClose={() => setIsCartOpen(false)}
+      >
         <Cart
           addToCart={handleAddToCart}
           cartProduct={cartProducts}
@@ -63,7 +37,7 @@ function App() {
         ></Cart>
       </Drawer>
 
-      <StyledButton onClick={() => setCartOpen(true)}>
+      <StyledButton onClick={() => setIsCartOpen(true)}>
         <Badge badgeContent={getTotalProducts(cartProducts)} color="error">
           <AddShoppingCartIcon />
         </Badge>
