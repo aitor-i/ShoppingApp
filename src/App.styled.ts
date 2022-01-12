@@ -3,8 +3,15 @@ import IconButton from "@material-ui/core/IconButton";
 
 export const Wrapper = styled.div``;
 
-export const StyledButton = styled(IconButton)`
-  position: fixed;
+export const StyledButton = styled.div`
   z-index: 100;
-  left: 90%;
+  position: fixed;
+  top: 65px;
+  right: 30px;
+  :hover {
+    background-color: grey;
+    opacity: 0.15;
+    border-radius: 100%;
+    color: black;
+  }
 `;
