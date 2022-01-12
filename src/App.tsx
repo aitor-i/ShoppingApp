@@ -1,6 +1,6 @@
 import { Fragment, useState } from "react";
 
-import { useCart } from "./useCart";
+import { useCart } from "./core/services/hooks/useCart";
 
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import { Badge, Drawer, Grid } from "@material-ui/core";
